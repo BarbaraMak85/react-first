@@ -27,6 +27,25 @@ var movies = [{
     }
 ];
 
+var Movie = React.createClass({
+    propTypes: {
+        title: React.PropTypes.string.isRequired,
+        desc: React.PropTypes.string.isRequired,
+        image: React.PropTypes.string.isRequired,
+        id: React.PropTypes.number.isRequired,
+    },
+    render: function() {
+        return React.createElement('li', { key: this.props.id },
+            React.createElement(MovieTitle, { title: this.props.title }),
+            React.createElement(MovieDescription, { desc: this.props.desc }),
+            React.createElement(MovieImage, { image: this.props.image }),
+
+
+        );
+
+    }
+})
+
 var moviesElements = movies.map(function(movie) {
     return React.createElement('li', { key: movie.id },
         React.createElement('h2', {}, movie.title),
@@ -37,11 +56,44 @@ var moviesElements = movies.map(function(movie) {
     );
 });
 
-var element =
-    React.createElement('div', {},
-        React.createElement('h1', {}, 'Lista filmów'),
-        React.createElement('ul', {}, moviesElements)
 
-    );
 
-ReactDOM.render(element, document.getElementById('app'));
+var MovieTitle = React.createClass({
+    propTypes: {
+        title: React.PropTypes.string.isRequired,
+    },
+    render: function() {
+        return React.createElement('h2', {}, this.props.title);
+    }
+});
+
+
+
+
+var MovieDescription = React.createClass({
+    propTypes: {
+        desc: React.PropTypes.string.isRequired,
+    },
+    render: function() {
+        return React.createElement('p', {}, this.props.desc);
+    }
+});
+
+var MovieImage = React.createClass({
+    propTypes: {
+        image: React.PropTypes.string.isRequired,
+    },
+    render: function() {
+        return React.createElement('img', { src: this.props.image, alt: "xxx" });
+    }
+});
+
+
+
+
+var element = movies.map(function(movie) {
+    return React.createElement(Movie, { title: movie.title, desc: movie.desc, image: movie.image, id: movie.id });
+});
+
+
+ReactDOM.render(React.createElement('ul', null, element), document.getElementById('app'));
